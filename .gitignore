@@ -1,0 +1,77 @@
+# ==============================================================================
+# .gitignore — GIO Motorcycle AI (YOLO26m + FastAPI + Streamlit)
+# ==============================================================================
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+*.venv/
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+# Izinkan template environment
+!.env.example
+
+# Temporary Test Artifacts & Screen Dumps
+real_browser_screenshot.png
+screenshot_*.png
+test_*.png
+sidebar_dump.html
+*.log
+
+# Checkpoint Source / Local Extraction Backup
+# (yolo26m_best.pt adalah direktori ekstraksi lokal awal; tidak diperlukan dalam build)
+yolo26m_best.pt/
+
+# Model Artifacts Policy:
+# Model kandidat resmi WAJIB diikutsertakan untuk container build
+!artifacts/
+!artifacts/yolo26m_candidate.pt
+
+# Distribution & Packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Operating System & IDE Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local Antigravity skill bundle (kept on this computer)
+.agents/
+
+# Temporary UI debugging scripts
+scripts/capture_native.py
+scripts/capture_responsive.py
+scripts/get_computed.py
+scripts/inspect_cdp.py
+scripts/inspect_dom.py
+scripts/inspect_rules.py
+scripts/test_css_inject.py
