@@ -293,11 +293,26 @@
       2. Membuat berkas `dashboard/__init__.py` untuk mendeklarasikan package formal.
       3. Menambahkan injeksi defensif `sys.path` berbasis path absolut repo di bagian paling atas `dashboard/app.py`.
     - *Hasil Uji*: 57/57 PASSED (35 frontend, 22 backend).
-- [ ] **Phase 4.3: Deployment Implementation (Railway Backend & Frontend)**
-  - Deployment service backend FastAPI (`gio-inference`) ke Railway dan verifikasi health check `/`.
-  - Deployment service frontend Streamlit (`gio-dashboard`) ke Railway dan penyambungan `INFERENCE_API_URL` melalui private networking.
-  - Pengujian koneksi antarlayanan dan live inference di Railway.
-- [ ] **Phase 4.4: Vercel Showcase Portal & End-to-End Production Verification**
-  - Konfigurasi Vercel sebagai showcase portal / presentation gateway dengan tautan langsung ke dashboard Railway.
-  - Validasi end-to-end responsivitas, alur upload 10 MB, WebSocket, dan performa produksi publik.
+- [x] **Phase 4.3: Deployment Implementation (Railway Backend & Frontend)**
+  - *Tujuan*: Men-deploy backend FastAPI (`gio-motorcycle-ai`) dan dashboard Streamlit ke platform Railway dalam lingkungan private networking.
+  - *Status*: SELESAI (Status: `PASS`)
+  - *URL Produksi Live*: `https://genuine-exploration-production-b1c3.up.railway.app`
+  - *Hasil Verifikasi Online*: Alur upload gambar (hingga 10 MB), eksekusi model YOLO26m, kalkulasi IoA $\ge 0.60$, ringkasan status AMAN/PELANGGARAN, dan unduhan JPEG anotasi berfungsi online 100%.
+- [x] **Phase 4.4: GIO Vercel Showcase Portal (Dibatalkan & Diarsipkan)**
+  - *Tujuan*: Membangun portal showcase statis mandiri di `vercel-showcase/` untuk Vercel.
+  - *Status*: DIBATALKAN & DIARSIPKAN (Implementasi teknis selesai, namun diputuskan tidak digunakan sebelum deployment).
+  - *Lokasi Laporan*: `reports/phase_4_4_vercel_showcase.md`
+  - *Catatan Keputusan*: Berdasarkan evaluasi kepraktisan alur pengguna, portal perantara Vercel tidak lagi diperlukan. Pengunjung diarahkan langsung ke dashboard Streamlit. Tidak ada deployment Vercel yang dilakukan.
+- [x] **Phase 4.5: Cleanup & Finalize Deployment Architecture (Railway Only)**
+  - *Tujuan*: Membersihkan direktori lokal `vercel-showcase/`, memperbarui dokumentasi keputusan final, memvalidasi integritas berkas dan checkpoint model, serta menjalankan regresi test suite lengkap.
+  - *Status*: SELESAI (Status: `PASS`)
+  - *Arsitektur Final*: **Railway Only** (Dual-Service Monorepo: FastAPI `gio-motorcycle-ai` + Streamlit Dashboard via Private Networking).
+  - *Satu-Satunya Entrypoint Publik*: `https://genuine-exploration-production-b1c3.up.railway.app`
+  - *Hasil Verifikasi*: 
+    - Direktori `vercel-showcase/` dihapus secara bersih.
+    - Checkpoint model `artifacts/yolo26m_candidate.pt` dan source code aplikasi 100% utuh.
+    - Deployment Railway tidak diubah dan tetap aktif melayani pengguna.
+    - Regresi otomatis: 57/57 tests lulus (35 frontend, 22 backend).
+
+
 
