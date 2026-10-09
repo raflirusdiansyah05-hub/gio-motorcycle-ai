@@ -286,6 +286,13 @@
     - `.env.example` dibuat: Dokumentasi variabel `PORT`, `INFERENCE_API_URL`, `MODEL_PATH`, `MAX_UPLOAD_MB`, `ALLOWED_ORIGINS` untuk lokal dan private networking Railway.
     - Panduan konfigurasi Railway dual-service (monorepo root context) dan rencana Showcase Portal Vercel didokumentasikan.
     - Pengujian otomatis: 57/57 PASSED (35 frontend, 22 backend). Docker CLI lokal: `NOT VERIFIED (Lokal)`.
+  - *Production Hotfix (ModuleNotFoundError: No module named 'dashboard')*:
+    - *Akar Masalah*: Streamlit menempatkan direktori script (`/app/dashboard`) di `sys.path[0]`, bukan root `/app`. Tanpa `ENV PYTHONPATH=/app` dan berkas `dashboard/__init__.py`, import `from dashboard.components.ui` dkk gagal ditemukan oleh Python interpreter di dalam kontainer Railway.
+    - *Perbaikan*:
+      1. Menambahkan `PYTHONPATH=/app` pada instruksi `ENV` di `dashboard/Dockerfile`.
+      2. Membuat berkas `dashboard/__init__.py` untuk mendeklarasikan package formal.
+      3. Menambahkan injeksi defensif `sys.path` berbasis path absolut repo di bagian paling atas `dashboard/app.py`.
+    - *Hasil Uji*: 57/57 PASSED (35 frontend, 22 backend).
 - [ ] **Phase 4.3: Deployment Implementation (Railway Backend & Frontend)**
   - Deployment service backend FastAPI (`gio-inference`) ke Railway dan verifikasi health check `/`.
   - Deployment service frontend Streamlit (`gio-dashboard`) ke Railway dan penyambungan `INFERENCE_API_URL` melalui private networking.
@@ -293,3 +300,4 @@
 - [ ] **Phase 4.4: Vercel Showcase Portal & End-to-End Production Verification**
   - Konfigurasi Vercel sebagai showcase portal / presentation gateway dengan tautan langsung ke dashboard Railway.
   - Validasi end-to-end responsivitas, alur upload 10 MB, WebSocket, dan performa produksi publik.
+

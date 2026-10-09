@@ -26,10 +26,12 @@ Pada Phase 4.2, seluruh blocker konfigurasi yang ditemukan pada audit Phase 4.1 
 |---|---|---|
 | `.gitignore` | **Baru** | Aturan pengabaian `.venv/`, cache Python, hasil uji dump, `.env`, dan direktori ekstraksi cadangan `yolo26m_best.pt/`. Mempertahankan `artifacts/yolo26m_candidate.pt`. |
 | `inference/Dockerfile` | **Diubah** | Mengganti `CMD` statis dengan shell exec dinamis `${PORT:-8000}` untuk Railway. |
-| `dashboard/Dockerfile` | **Baru** | Kontainer mandiri Streamlit berbasis `python:3.11-slim`, port dinamis `${PORT:-8501}`, headless mode, dan isolasi dari PyTorch. |
+| `dashboard/Dockerfile` | **Diubah** | Kontainer mandiri Streamlit berbasis `python:3.11-slim`, `ENV PYTHONPATH=/app`, port dinamis `${PORT:-8501}`, headless mode, dan isolasi dari PyTorch. |
+| `dashboard/__init__.py` | **Baru** | Deklarasi package resmi `dashboard` untuk Python package discovery di dalam kontainer. |
+| `dashboard/app.py` | **Diubah** | Ditambahkan injeksi defensif `sys.path` untuk menjamin resolusi impor root package. |
 | `.env.example` | **Baru** | Template dokumentasi variabel lingkungan untuk lokal, Railway internal private networking, dan publik. |
-| `reports/phase_4_2_deployment_preparation.md` | **Baru** | Laporan teknis lengkap persiapan deployment Phase 4.2. |
-| `TASKS.md` | **Diubah** | Pelacakan status penyelesaian Phase 4.2 dan pembaruan roadmap Phase 4.3. |
+| `reports/phase_4_2_deployment_preparation.md` | **Baru/Diperbarui** | Laporan teknis lengkap persiapan deployment Phase 4.2 dan resolusi `ModuleNotFoundError`. |
+| `TASKS.md` | **Diubah** | Pelacakan status penyelesaian Phase 4.2, hotfix `dashboard`, dan pembaruan roadmap Phase 4.3. |
 
 ---
 
@@ -201,7 +203,7 @@ Berikut panduan konfigurasi pada dashboard Railway (tanpa deploy manual saat ini
 |---|---|---|
 | Repositori & `.gitignore` | `PASS` | Folder `.venv` dan file dump pengujian terlindungi; model kandidat dipertahankan. |
 | Backend Dockerfile | `PASS` | Mendukung port dinamis `$PORT`, build context root, dan healthcheck `/`. |
-| Frontend Dockerfile | `PASS` | Kontainer Streamlit mandiri terisolasi, mendukung `$PORT` dan `INFERENCE_API_URL`. |
+| Frontend Dockerfile | `PASS` | Kontainer Streamlit mandiri terisolasi, `ENV PYTHONPATH=/app`, `dashboard/__init__.py`, mendukung `$PORT` dan `INFERENCE_API_URL`. |
 | Dokumentasi Environment | `PASS` | `.env.example` terdokumentasi lengkap dan bebas dari secret. |
 | Panduan Setup Railway | `PASS` | Alur monorepo 2-service dan private networking terdokumentasi. |
 | Pengujian Unit/Regresi | `PASS` | 57/57 tests lulus tanpa regresi. |
